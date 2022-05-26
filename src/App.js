@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import ShowSearch from "./ShowSearch";
+
+import TvShowsContainer from "./TvShowsContainer";
+
+const baseURL = " https://api.tvmaze.com/shows";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [tvShows, setTvShows] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        fetch(baseURL)
+            .then((tvShows) => tvShows.json())
+            .then((tvShows) => setTvShows(tvShows))
+            .then(console.log("fired useEffect"));
+    }, []);
+
+    const filteredShows = () => {
+        return tvShows.filter((tvShow) => {
+            if (!searchTerm) {
+                return tvShow;
+            } else {
+                return tvShow.name
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase());
+            }
+        });
+    };
+
+    return (
+        <div className="App">
+            <p>TvMaze API</p>
+            <div className="search-container">
+                <ShowSearch
+                    setSearchTerm={setSearchTerm}
+                    searchTerm={searchTerm}
+                />
+            </div>
+            <TvShowsContainer tvShows={filteredShows()} />
+        </div>
+    );
 }
 
 export default App;
