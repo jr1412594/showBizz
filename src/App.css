@@ -34,8 +34,9 @@
 
 .search-container {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   text-align: left;
-  background-color: red;
+
+  background-color: rgb(65, 62, 62);
   margin-bottom: 5px;
 }

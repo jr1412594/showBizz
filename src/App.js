@@ -1,5 +1,7 @@
+import { clear } from "@testing-library/user-event/dist/clear";
 import { useEffect, useState } from "react";
 import "./App.css";
+import GenreSearch from "./GenreSearch";
 import ShowSearch from "./ShowSearch";
 
 import TvShowsContainer from "./TvShowsContainer";
@@ -9,6 +11,9 @@ const baseURL = " https://api.tvmaze.com/shows";
 function App() {
     const [tvShows, setTvShows] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [genre, setGenre] = useState("Select");
+
+    console.log(genre, " :in my app genre bitches!")
 
     const reviews = [];
     useEffect(() => {
@@ -22,6 +27,9 @@ function App() {
     }, []);
 
     console.log(tvShows, " :do you have reviews")
+    const passGenre = (x) => {
+        return setGenre(x);
+    }
     const filteredShows = () => {
         return tvShows.filter((tvShow) => {
             if (!searchTerm) {
@@ -31,8 +39,20 @@ function App() {
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase());
             }
-        });
+        })
+        .filter(tvShow => {
+            if(genre === 'Select') {
+                return tvShow
+            } else {
+                return tvShow.genres.includes(genre)
+            }
+        })
     };
+
+    const clearAll = () => {
+        setSearchTerm('');
+        setGenre('Select')
+    }
 
     return (
         <div className="App">
@@ -42,6 +62,8 @@ function App() {
                     setSearchTerm={setSearchTerm}
                     searchTerm={searchTerm}
                 />
+                <GenreSearch genres={filteredShows()} passGenre={passGenre} genre={genre}/>
+                <button onClick={clearAll}>Clear</button>
             </div>
             <TvShowsContainer tvShows={filteredShows()} />
         </div>
