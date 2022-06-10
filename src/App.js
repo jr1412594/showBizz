@@ -10,13 +10,18 @@ function App() {
     const [tvShows, setTvShows] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 
+    const reviews = [];
     useEffect(() => {
         fetch(baseURL)
             .then((tvShows) => tvShows.json())
+            .then(tvShows => tvShows.map(tvShow => {
+                return {...tvShow, reviews}
+            }))
             .then((tvShows) => setTvShows(tvShows))
             .then(console.log("fired useEffect"));
     }, []);
 
+    console.log(tvShows, " :do you have reviews")
     const filteredShows = () => {
         return tvShows.filter((tvShow) => {
             if (!searchTerm) {

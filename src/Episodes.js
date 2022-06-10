@@ -23,7 +23,7 @@ export default function Episodes() {
     }
 
     return (<div style={{display: 'block'}}>
-        Episodes: {episodes.length}
+        Number of Episodes: {episodes.length}
         {displayEpisodes()};
         </div>);
 }

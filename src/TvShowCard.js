@@ -14,6 +14,7 @@ export default function TvShowCard({ tvShow }) {
                 />
                 <h3>{tvShow.name}</h3>
             </Link>
+                <h4>Reviews: {tvShow.reviews.length}</h4>
             <Outlet />
         </div>
     );
